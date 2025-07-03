@@ -14,10 +14,12 @@ public class PersonDTO {
     private String isCustomer;
     private String isProvider;
     private String isBranch;
-    private String erpCode;
+    private String erpId;
+    private SellerDTO seller;
     private String type;
     private String mainDocument;
     private String secondaryDocument;
+    private String status;
     private List<AddressDTO> addresses;
     private List<PhoneDTO> phones;
     private List<EmailDTO> emails;
