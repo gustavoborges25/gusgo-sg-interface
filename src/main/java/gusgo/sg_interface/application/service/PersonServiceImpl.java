@@ -88,11 +88,11 @@ public class PersonServiceImpl implements PersonService {
     private PersonDTO buildPersonDTO(Row row, SellerDTO seller) {
         List<AddressDTO> addressDto = getAddressDTOs(row);
         List<PhoneDTO> phonesDto = getPhoneDTOS(row);
-        String mainDocument = row.getCell(7).getStringCellValue();
+        String mainDocument = row.getCell(7).getStringCellValue().replace(" ", "");
 
         PersonDTO personDto = new PersonDTO();
-        personDto.setName(row.getCell(1).getStringCellValue());
-        personDto.setNickname(row.getCell(2) != null ? row.getCell(2).getStringCellValue() : "");
+        personDto.setName(row.getCell(1).getStringCellValue().trim());
+        personDto.setNickname(row.getCell(2) != null ? row.getCell(2).getStringCellValue().trim() : "");
         personDto.setIsCustomer(YesNo.YES.getValue());
         personDto.setIsProvider(YesNo.NO.getValue());
         personDto.setIsBranch(YesNo.NO.getValue());
@@ -148,13 +148,17 @@ public class PersonServiceImpl implements PersonService {
 
         String id = parts[0];
         String name = parts.length > 1 ? parts[1] : "";
-        return new SellerDTO(id, name);
+
+        SellerDTO sellerDTO = new SellerDTO();
+        sellerDTO.setName(name);
+        sellerDTO.setErpId(id);
+        return sellerDTO;
     }
 
     private String getAddressStreet(String text) {
         if (text.isEmpty()) return "";
         String[] parts = text.split(",");
-        return parts.length > 1 ? parts[0].trim() : "";
+        return parts.length > 0 ? parts[0].trim() : "";
     }
 
     private String getAddressNumber(String text) {
